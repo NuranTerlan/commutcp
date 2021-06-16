@@ -65,8 +65,6 @@ namespace HttpRequestGenerator
                 {
                     var content = new StringContent(message, Encoding.UTF8, "text/plain");
                     var response = await _client.PostAsync("http://localhost:" + Port + '/', content);
-
-                    // Console.WriteLine("sent: " + (i + 1));
                     response.EnsureSuccessStatusCode();
                 }
                 catch (Exception e)
