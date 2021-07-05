@@ -21,7 +21,6 @@ namespace CustomHttpServer
         
         // private readonly Queue<HttpListenerRequest> _requestsToHandle;
 
-        
         public RequestListener(params string[] ports)
         {
             if (!HttpListener.IsSupported)
@@ -44,7 +43,7 @@ namespace CustomHttpServer
 
             foreach (var port in ports)
             {
-                _listener.Prefixes.Add("http://localhost:" + port + '/');
+                _listener.Prefixes.Add("http://localhost:" + port.Trim() + '/');
             }
         }
 
@@ -140,13 +139,13 @@ namespace CustomHttpServer
             {
                 if (++tryCount < 2)
                 {
-                    Console.WriteLine($"WriteToConsole checks for new messages.. ({_handledRequests} requests are handled)");
+                    Console.WriteLine($"Total: {_handledRequests} requests are handled!");
                 }
                 await _semaphore.WaitAsync(_listeningToken);
                 if (_messagesToWriteConsole.Any())
                 {
                     tryCount = 0;
-                    Console.WriteLine($"{_messagesToWriteConsole.Count} messages received!");
+                    Console.WriteLine($"\n{_messagesToWriteConsole.Count} messages received..\n");
                     // Console.WriteLine(string.Join('\n', _messagesToWriteConsole));
                     _handledRequests += _messagesToWriteConsole.Count;
                     _messagesToWriteConsole.Clear();
